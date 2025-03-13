@@ -1,54 +1,60 @@
-/* script.js */
 document.addEventListener("DOMContentLoaded", () => {
     const apiUrl = "https://api.green-api.com/waInstance";
 
-    const getInstanceData = () => {
-        return {
-            idInstance: document.getElementById("idInstance").value,
-            apiToken: document.getElementById("apiToken").value
-        };
-    };
-
-    const updateOutput = (data) => {
-        document.getElementById("output").value = JSON.stringify(data, null, 2);
-    };
+    const idInstanceInput = document.getElementById("idInstance");
+    const apiTokenInput = document.getElementById("apiToken");
+    const phoneNumberInput = document.getElementById("phoneNumber");
+    const messageInput = document.getElementById("message");
+    const fileUrlInput = document.getElementById("fileUrl");
+    const outputTextarea = document.getElementById("output");
 
     document.getElementById("getSettings").addEventListener("click", async () => {
-        const { idInstance, apiToken } = getInstanceData();
-        const response = await fetch(`${apiUrl}${idInstance}/getSettings/${apiToken}`);
-        updateOutput(await response.json());
+        await sendRequest("getSettings");
     });
 
     document.getElementById("getStateInstance").addEventListener("click", async () => {
-        const { idInstance, apiToken } = getInstanceData();
-        const response = await fetch(`${apiUrl}${idInstance}/getStateInstance/${apiToken}`);
-        updateOutput(await response.json());
+        await sendRequest("getStateInstance");
     });
 
     document.getElementById("sendMessage").addEventListener("click", async () => {
-        const { idInstance, apiToken } = getInstanceData();
-        const phoneNumber = prompt("Введите номер телефона в формате 79001234567:");
-        const message = prompt("Введите сообщение:");
-
-        const response = await fetch(`${apiUrl}${idInstance}/sendMessage/${apiToken}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ chatId: `${phoneNumber}@c.us`, message })
-        });
-        updateOutput(await response.json());
+        const body = {
+            chatId: `${phoneNumberInput.value}@c.us`,
+            message: messageInput.value
+        };
+        await sendRequest("sendMessage", body);
     });
 
     document.getElementById("sendFileByUrl").addEventListener("click", async () => {
-        const { idInstance, apiToken } = getInstanceData();
-        const phoneNumber = prompt("Введите номер телефона в формате 79001234567:");
-        const fileUrl = prompt("Введите URL файла:");
-        const fileName = prompt("Введите имя файла:");
+        const body = {
+            chatId: `${phoneNumberInput.value}@c.us`,
+            urlFile: fileUrlInput.value,
+            fileName: "file"
+        };
+        await sendRequest("sendFileByUrl", body);
+    });
 
-        const response = await fetch(`${apiUrl}${idInstance}/sendFileByUrl/${apiToken}`, {
+    async function sendRequest(method, body = null) {
+        const idInstance = idInstanceInput.value;
+        const apiToken = apiTokenInput.value;
+
+        if (!idInstance || !apiToken) {
+            alert("Введите ID Instance и API Token!");
+            return;
+        }
+
+        const url = `${apiUrl}${idInstance}/${method}/${apiToken}`;
+        const options = body ? {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ chatId: `${phoneNumber}@c.us`, urlFile: fileUrl, fileName })
-        });
-        updateOutput(await response.json());
-    });
+            body: JSON.stringify(body)
+        } : { method: "GET" };
+
+        try {
+            const response = await fetch(url, options);
+            const data = await response.json();
+            outputTextarea.value = JSON.stringify(data, null, 2);
+        } catch (error) {
+            outputTextarea.value = "Ошибка запроса";
+        }
+    }
 });
