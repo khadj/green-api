@@ -4,29 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Green API Test</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <h1>Green API Test</h1>
         
         <label for="idInstance">ID Instance:</label>
-        <input type="text" id="idInstance" placeholder="Введите ID">
+        <input type="text" id="idInstance" placeholder="Введите ID Instance">
         
         <label for="apiToken">API Token:</label>
         <input type="text" id="apiToken" placeholder="Введите API Token">
         
-        <div class="buttons">
-            <button id="getSettings">getSettings</button>
-            <button id="getStateInstance">getStateInstance</button>
-            <button id="sendMessage">sendMessage</button>
-            <button id="sendFileByUrl">sendFileByUrl</button>
-        </div>
+        <button id="getSettings">getSettings</button>
+        <button id="getStateInstance">getStateInstance</button>
+        
+        <label for="phoneNumber">Номер телефона:</label>
+        <input type="text" id="phoneNumber" placeholder="79001234567">
+        
+        <label for="message">Сообщение:</label>
+        <input type="text" id="message" placeholder="Введите сообщение">
+        
+        <button id="sendMessage">sendMessage</button>
+        
+        <label for="fileUrl">URL файла:</label>
+        <input type="text" id="fileUrl" placeholder="https://example.com/file.png">
+        
+        <button id="sendFileByUrl">sendFileByUrl</button>
         
         <h2>Ответ API:</h2>
         <textarea id="output" readonly></textarea>
     </div>
-    
     <script src="script.js"></script>
 </body>
 </html>
