@@ -1,1 +1,32 @@
-
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green API Test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Green API Test</h1>
+        
+        <label for="idInstance">ID Instance:</label>
+        <input type="text" id="idInstance" placeholder="Введите ID">
+        
+        <label for="apiToken">API Token:</label>
+        <input type="text" id="apiToken" placeholder="Введите API Token">
+        
+        <div class="buttons">
+            <button id="getSettings">getSettings</button>
+            <button id="getStateInstance">getStateInstance</button>
+            <button id="sendMessage">sendMessage</button>
+            <button id="sendFileByUrl">sendFileByUrl</button>
+        </div>
+        
+        <h2>Ответ API:</h2>
+        <textarea id="output" readonly></textarea>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
